@@ -14,25 +14,19 @@ import java.util.Scanner;
 public class TicTacToeGame {
 	
 	private static int stepCount = 0;
+	private static  String cell = "_|";
 	private static final String exChar = "X|";
 	private static final String zeroChar = "O|";
 	
-	private static final String TOP_1 = "  1";
-	private static final String TOP_2 = " 2";
-	private static final String TOP_3 = " 3";
-	private static final String SIDE_1 = "1 ";
-	private static final String SIDE_2 = "2 ";
-	private static final String SIDE_3 = "3 ";
-	
-	private static String oneone = "_|";
-	private static String onetwo = "_|";
-	private static String onethree = "_|";
-	private static String twoone = "_|";
-	private static String twotwo = "_|";
-	private static String twothree = "_|";
-	private static String threeone = "_|";
-	private static String threetwo = "_|";
-	private static String threethree = "_|";
+	private static String oneone = cell;
+	private static String onetwo = cell;
+	private static String onethree = cell;
+	private static String twoone = cell;
+	private static String twotwo = cell;
+	private static String twothree = cell;
+	private static String threeone = cell;
+	private static String threetwo = cell;
+	private static String threethree = cell;
 	
 	private static boolean EX;
 	private static boolean ZERO;
@@ -42,17 +36,22 @@ public class TicTacToeGame {
 	private static List<Integer> stepsZERO = new ArrayList<Integer>();
 	
 	static void drawField(){
-		System.out.println(TOP_1 + TOP_2 + TOP_3);
-		System.out.println(SIDE_1 + oneone + onetwo + onethree);
-		System.out.println(SIDE_2 + twoone + twotwo + twothree);
-		System.out.println(SIDE_3 + threeone + threetwo + threethree);
-		System.out.println("");
+		System.out.println("  1 2 3");
+		System.out.println("1 " + oneone + onetwo + onethree);
+		System.out.println("2 " + twoone + twotwo + twothree);
+		System.out.println("3 " + threeone + threetwo + threethree);
+		System.out.println();
 	}
 	
 	public static void main(String[] args) {
+		
+// блок выбора игры крестиками или ноликами **************************** 		
 		Scanner s = new Scanner(System.in);
 		int chooseChar = 0;
 		while (chooseChar != 1 && chooseChar != 2) {
+			System.out.println("Правило ввода координат ячейки:");
+			System.out.println("ПЕРВАЯ цифра - номер строки по ВЕРТИКАЛИ");
+			System.out.println("ВТОРАЯ цифра - номер строки по ГОРИЗОНТАЛИ\n");
 			System.out.println("Нажмите 1, если первыми ходят КРЕСТИКИ или\nНажмите 2, если первыми ходят НОЛИКИ\n");
 			chooseChar = s.nextInt();
 			if (chooseChar == 1) {
@@ -65,6 +64,8 @@ public class TicTacToeGame {
 				System.out.println("Невалидный ввод. Попробуйте еще раз.");
 			}
 		}
+		
+//**********************************************************************
 		
 		while (!SOMEBODYWIN) { 
 			stepCount++;
@@ -166,20 +167,30 @@ public class TicTacToeGame {
 				ZERO = false;
 				System.out.println("\nХод КРЕСТИКОВ\n");
 			}
-			if((stepsZERO.contains(11) && stepsZERO.contains(12) && stepsZERO.contains(13)) || 
+			if((stepsZERO.contains(11) && stepsZERO.contains(12) && stepsZERO.contains(13)) ||
 			   (stepsZERO.contains(21) && stepsZERO.contains(22) && stepsZERO.contains(23)) ||
 			   (stepsZERO.contains(31) && stepsZERO.contains(32) && stepsZERO.contains(33)) ||
+			   
+			   (stepsZERO.contains(11) && stepsZERO.contains(21) && stepsZERO.contains(31)) ||
+			   (stepsZERO.contains(12) && stepsZERO.contains(22) && stepsZERO.contains(32)) ||
+			   (stepsZERO.contains(13) && stepsZERO.contains(23) && stepsZERO.contains(33)) ||
+			  
 			   (stepsZERO.contains(11) && stepsZERO.contains(22) && stepsZERO.contains(33)) ||
-			   (stepsZERO.contains(31) && stepsZERO.contains(22) && stepsZERO.contains(13))){
+			   (stepsZERO.contains(13) && stepsZERO.contains(22) && stepsZERO.contains(31))){
 				System.out.println("\nПобеда НОЛИКОВ !!!");
 				drawField();
 				SOMEBODYWIN = true;
 			}
-			if ((stepsEX.contains(11) && stepsEX.contains(12) && stepsEX.contains(13))
-					|| (stepsEX.contains(21) && stepsEX.contains(22) && stepsEX.contains(23))
-					|| (stepsEX.contains(31) && stepsEX.contains(32) && stepsEX.contains(33))
-					|| (stepsEX.contains(11) && stepsEX.contains(22) && stepsEX.contains(33))
-					|| (stepsEX.contains(31) && stepsEX.contains(22) && stepsEX.contains(13))) {
+			if((stepsEX.contains(11) && stepsEX.contains(12) && stepsEX.contains(13)) ||
+					   (stepsEX.contains(21) && stepsEX.contains(22) && stepsEX.contains(23)) ||
+					   (stepsEX.contains(31) && stepsEX.contains(32) && stepsEX.contains(33)) ||
+					   
+					   (stepsEX.contains(11) && stepsEX.contains(21) && stepsEX.contains(31)) ||
+					   (stepsEX.contains(12) && stepsEX.contains(22) && stepsEX.contains(32)) ||
+					   (stepsEX.contains(13) && stepsEX.contains(23) && stepsEX.contains(33)) ||
+					  
+					   (stepsEX.contains(11) && stepsEX.contains(22) && stepsEX.contains(33)) ||
+					   (stepsEX.contains(13) && stepsEX.contains(22) && stepsEX.contains(31))){
 				System.out.println("\nПобеда КРЕСТИКОВ !!!");
 				drawField();
 				SOMEBODYWIN = true;
