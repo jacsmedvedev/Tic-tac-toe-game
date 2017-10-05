@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Test vrsion of Tic-tac-toe game (console version).
  * 
  * @author Yakov Medvedev
- * @version 1.0
+ * @version 1.1
  *
  */
 public class TicTacToeGame {
@@ -31,6 +31,17 @@ public class TicTacToeGame {
 	private static boolean EX;
 	private static boolean ZERO;
 	private static boolean SOMEBODYWIN = false;
+	
+	private static int[] horizont_1 = {11,12,13};
+	private static int[] horizont_2 = {21,22,23};
+	private static int[] horizont_3 = {31,32,33};
+	
+	private static int[] vertical_1 = {11,21,31};
+	private static int[] vertical_2 = {12,22,32};
+	private static int[] vertical_3 = {13,23,33};
+	
+	private static int[] diagonal_1 = {11,22,33};
+	private static int[] diagonal_2 = {13,22,13};
 	
 	private static List<Integer> stepsEX = new ArrayList<Integer>();
 	private static List<Integer> stepsZERO = new ArrayList<Integer>();
@@ -72,87 +83,26 @@ public class TicTacToeGame {
 			drawField();
 			System.out.print("Введите координаты - ");
 			int input = s.nextInt();
-			if (input == 11) {
-				if (EX){
-					oneone = exChar;
-					stepsEX.add(input);
-				} else {
-					oneone = zeroChar;
-					stepsZERO.add(input);
-				}	
+			switch(input){
+			case 11: oneone = EX ? exChar : zeroChar;
+				  boolean x = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 12: onetwo = EX ? exChar : zeroChar;
+			      boolean y = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 13: onethree = EX ? exChar : zeroChar;
+				  boolean z = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 21: twoone = EX ? exChar : zeroChar;
+		      	  boolean a = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 22: twotwo = EX ? exChar : zeroChar;
+		      	  boolean b = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 23: twothree = EX ? exChar : zeroChar;
+		      	  boolean c = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 31: threeone = EX ? exChar : zeroChar;
+	      	  	  boolean q = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 32: threetwo = EX ? exChar : zeroChar;
+	      	  	  boolean w = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			case 33: threethree = EX ? exChar : zeroChar;
+	      	  	  boolean e = EX ? stepsEX.add(input) : stepsZERO.add(input);
 			}
-			if (input == 12) {
-				if (EX){
-					onetwo = exChar;
-					stepsEX.add(input);
-				} else {
-					onetwo = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 13) {
-				if (EX){
-					onethree = exChar;
-					stepsEX.add(input);
-				} else {
-					onethree = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 21) {
-				if (EX){
-					twoone = exChar;
-					stepsEX.add(input);
-				} else {
-					twoone = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 22) {
-				if (EX){
-					twotwo = exChar;
-					stepsEX.add(input);
-				} else {
-					twotwo = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 23) {
-				if (EX){
-					twothree = exChar;
-					stepsEX.add(input);
-				} else {
-					twothree = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 31) {
-				if (EX){
-					threeone = exChar;
-					stepsEX.add(input);
-				} else {
-					threeone = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 32) {
-				if (EX){
-					threetwo = exChar;
-					stepsEX.add(input);
-				} else {
-					threetwo = zeroChar;
-					stepsZERO.add(input);
-				}
-			}
-			if (input == 33) {
-				if (EX){
-					threethree = exChar;
-					stepsEX.add(input);
-				} else {
-					threethree = zeroChar;
-					stepsZERO.add(input);
-				}
-			} 
 			if (input != 11 && input != 12 && input != 13 &&
 				input != 21 && input != 22 && input != 23 &&
 				input != 31 && input != 32 && input != 33) {
@@ -167,6 +117,8 @@ public class TicTacToeGame {
 				ZERO = false;
 				System.out.println("\nХод КРЕСТИКОВ\n");
 			}
+			
+// блок проверки выинрышных комбинаций *****************************************************************
 			if((stepsZERO.contains(11) && stepsZERO.contains(12) && stepsZERO.contains(13)) ||
 			   (stepsZERO.contains(21) && stepsZERO.contains(22) && stepsZERO.contains(23)) ||
 			   (stepsZERO.contains(31) && stepsZERO.contains(32) && stepsZERO.contains(33)) ||
@@ -182,19 +134,20 @@ public class TicTacToeGame {
 				SOMEBODYWIN = true;
 			}
 			if((stepsEX.contains(11) && stepsEX.contains(12) && stepsEX.contains(13)) ||
-					   (stepsEX.contains(21) && stepsEX.contains(22) && stepsEX.contains(23)) ||
-					   (stepsEX.contains(31) && stepsEX.contains(32) && stepsEX.contains(33)) ||
+				(stepsEX.contains(21) && stepsEX.contains(22) && stepsEX.contains(23)) ||
+				(stepsEX.contains(31) && stepsEX.contains(32) && stepsEX.contains(33)) ||
 					   
-					   (stepsEX.contains(11) && stepsEX.contains(21) && stepsEX.contains(31)) ||
-					   (stepsEX.contains(12) && stepsEX.contains(22) && stepsEX.contains(32)) ||
-					   (stepsEX.contains(13) && stepsEX.contains(23) && stepsEX.contains(33)) ||
+				(stepsEX.contains(11) && stepsEX.contains(21) && stepsEX.contains(31)) ||
+				(stepsEX.contains(12) && stepsEX.contains(22) && stepsEX.contains(32)) ||
+				(stepsEX.contains(13) && stepsEX.contains(23) && stepsEX.contains(33)) ||
 					  
-					   (stepsEX.contains(11) && stepsEX.contains(22) && stepsEX.contains(33)) ||
-					   (stepsEX.contains(13) && stepsEX.contains(22) && stepsEX.contains(31))){
+				(stepsEX.contains(11) && stepsEX.contains(22) && stepsEX.contains(33)) ||
+				(stepsEX.contains(13) && stepsEX.contains(22) && stepsEX.contains(31))){
 				System.out.println("\nПобеда КРЕСТИКОВ !!!");
 				drawField();
 				SOMEBODYWIN = true;
 			}
+//********************************************************************************************************
 			if(stepCount>9){
 				System.out.println("\nНИЧЬЯ !!!");
 				drawField();
