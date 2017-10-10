@@ -19,7 +19,7 @@ public class TicTacToeGameComboChecker {
 	private static int[] diagonal_1 = {11,22,33};
 	private static int[] diagonal_2 = {13,22,13};
 	
-	private static int[][] full =  {horizont_1,
+	private static int[][] allCombo =  {horizont_1,
 									horizont_2,
 									horizont_3,
 									vertical_1,
@@ -28,11 +28,7 @@ public class TicTacToeGameComboChecker {
 									diagonal_1,
 									diagonal_2};
 	
-	
-	
-	
 	private static List<Integer> stepsEX = new ArrayList<Integer>();
-	private static List<Integer> stepsZERO = new ArrayList<Integer>();
 	
 	public static void main(String[] args) {
 		stepsEX.add(11);
@@ -41,11 +37,11 @@ public class TicTacToeGameComboChecker {
 		System.out.println(check(33));
 	}
 
-	public static boolean check(int newMove) {
+	static boolean check(int newMove) {
 		stepsEX.add(newMove);
 		boolean result = false;
-		for (int i = 0; i < full.length; i++) {
-			Set<Integer> mySet = Arrays.stream(full[i]).boxed().collect(Collectors.toSet());
+		for (int i = 0; i < allCombo.length; i++) {
+			Set<Integer> mySet = Arrays.stream(allCombo[i]).boxed().collect(Collectors.toSet());
 			result = stepsEX.containsAll(mySet);
 			if(result) {
 				break;
