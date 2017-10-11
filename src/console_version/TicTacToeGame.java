@@ -1,14 +1,14 @@
 package console_version;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Test vrsion of Tic-tac-toe game (console version).
  * 
  * @author Yakov Medvedev
- * @version 1.1
+ * @version 1.2
  *
  */
 public class TicTacToeGame {
@@ -32,10 +32,8 @@ public class TicTacToeGame {
 	private static boolean ZERO;
 	private static boolean SOMEBODYWIN = false;
 	
-	
-	
-	private static List<Integer> stepsEX = new ArrayList<Integer>();
-	private static List<Integer> stepsZERO = new ArrayList<Integer>();
+	private static Set<Integer> stepsEX = new HashSet<Integer>();
+	private static Set<Integer> stepsZERO = new HashSet<Integer>();
 	
 	static void drawField(){
 		System.out.println("  1 2 3");
@@ -46,16 +44,16 @@ public class TicTacToeGame {
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("Правило ввода координат ячейки:");
+		System.out.println("ПЕРВАЯ цифра - номер строки по ВЕРТИКАЛИ");
+		System.out.println("ВТОРАЯ цифра - номер строки по ГОРИЗОНТАЛИ\n");
+		System.out.println("Нажмите 1, если первыми ходят КРЕСТИКИ или\nНажмите 2, если первыми ходят НОЛИКИ\n");
 		
-// блок выбора игры крестиками или ноликами **************************** 		
-		Scanner s = new Scanner(System.in);
+// Блок выбора игры крестиками или ноликами **************************** 		
+		Scanner scaner = new Scanner(System.in);
 		int chooseChar = 0;
-		while (chooseChar != 1 && chooseChar != 2) {
-			System.out.println("Правило ввода координат ячейки:");
-			System.out.println("ПЕРВАЯ цифра - номер строки по ВЕРТИКАЛИ");
-			System.out.println("ВТОРАЯ цифра - номер строки по ГОРИЗОНТАЛИ\n");
-			System.out.println("Нажмите 1, если первыми ходят КРЕСТИКИ или\nНажмите 2, если первыми ходят НОЛИКИ\n");
-			chooseChar = s.nextInt();
+		while (chooseChar != 1 && chooseChar != 2) {		
+			chooseChar = scaner.nextInt();
 			if (chooseChar == 1) {
 				EX = true;
 				ZERO = false;
@@ -66,39 +64,67 @@ public class TicTacToeGame {
 				System.out.println("Невалидный ввод. Попробуйте еще раз.");
 			}
 		}
-		
 //**********************************************************************
 		
 		while (!SOMEBODYWIN) { 
 			stepCount++;
 			drawField();
 			System.out.print("Введите координаты - ");
-			int input = s.nextInt();
+			final int input = scaner.nextInt();
 			switch(input){
 			case 11: oneone = EX ? exChar : zeroChar;
 				  boolean x = EX ? stepsEX.add(input) : stepsZERO.add(input);
+				  break;
 			case 12: onetwo = EX ? exChar : zeroChar;
 			      boolean y = EX ? stepsEX.add(input) : stepsZERO.add(input);
+			      break;
 			case 13: onethree = EX ? exChar : zeroChar;
-				  boolean z = EX ? stepsEX.add(input) : stepsZERO.add(input);
+				    boolean z = EX ? stepsEX.add(input) : stepsZERO.add(input);
+				    break;
 			case 21: twoone = EX ? exChar : zeroChar;
 		      	  boolean a = EX ? stepsEX.add(input) : stepsZERO.add(input);
+		      	  break;
 			case 22: twotwo = EX ? exChar : zeroChar;
 		      	  boolean b = EX ? stepsEX.add(input) : stepsZERO.add(input);
+		      	  break;
 			case 23: twothree = EX ? exChar : zeroChar;
-		      	  boolean c = EX ? stepsEX.add(input) : stepsZERO.add(input);
+		      	    boolean c = EX ? stepsEX.add(input) : stepsZERO.add(input);
+		      	    break;
 			case 31: threeone = EX ? exChar : zeroChar;
-	      	  	  boolean q = EX ? stepsEX.add(input) : stepsZERO.add(input);
+	      	  	    boolean q = EX ? stepsEX.add(input) : stepsZERO.add(input);
+	      	  	    break;
 			case 32: threetwo = EX ? exChar : zeroChar;
-	      	  	  boolean w = EX ? stepsEX.add(input) : stepsZERO.add(input);
+	      	  	    boolean w = EX ? stepsEX.add(input) : stepsZERO.add(input);
+	      	  	    break;
 			case 33: threethree = EX ? exChar : zeroChar;
-	      	  	  boolean e = EX ? stepsEX.add(input) : stepsZERO.add(input);
+	      	  	      boolean e = EX ? stepsEX.add(input) : stepsZERO.add(input);
+	      	  	      break;
+	      	 default: System.out.println("\nВы ввели неверные координаты. Ход оппонента.");
 			}
-			if (input != 11 && input != 12 && input != 13 &&
-				input != 21 && input != 22 && input != 23 &&
-				input != 31 && input != 32 && input != 33) {
-				System.out.println("\nВы ввели неверные координаты. Ход оппонента.");
+			
+// Блок проверки выигрышных комбинаций *****************************************************************
+			if(EX) {
+				if(TicTacToeGameComboChecker.check(stepsEX)) {
+				System.out.println("\nПобеда КРЕСТИКОВ !!!");
+				drawField();
+				SOMEBODYWIN = true;
+				break;
+				}
+			} else {
+				if(TicTacToeGameComboChecker.check(stepsZERO)){
+				System.out.println("\nПобеда НОЛИКОВ !!!");
+				drawField();
+				SOMEBODYWIN = true;
+				break;
+				}
 			}
+//********************************************************************************************************
+			if(stepCount>9){
+				System.out.println("\nНИЧЬЯ !!!");
+				drawField();
+				SOMEBODYWIN = true;
+			}
+			
 			if(EX && !ZERO){
 				EX = false;
 				ZERO =true;
@@ -107,42 +133,6 @@ public class TicTacToeGame {
 				EX = true;
 				ZERO = false;
 				System.out.println("\nХод КРЕСТИКОВ\n");
-			}
-			
-// блок проверки выинрышных комбинаций *****************************************************************
-			if((stepsZERO.contains(11) && stepsZERO.contains(12) && stepsZERO.contains(13)) ||
-			   (stepsZERO.contains(21) && stepsZERO.contains(22) && stepsZERO.contains(23)) ||
-			   (stepsZERO.contains(31) && stepsZERO.contains(32) && stepsZERO.contains(33)) ||
-			   
-			   (stepsZERO.contains(11) && stepsZERO.contains(21) && stepsZERO.contains(31)) ||
-			   (stepsZERO.contains(12) && stepsZERO.contains(22) && stepsZERO.contains(32)) ||
-			   (stepsZERO.contains(13) && stepsZERO.contains(23) && stepsZERO.contains(33)) ||
-			  
-			   (stepsZERO.contains(11) && stepsZERO.contains(22) && stepsZERO.contains(33)) ||
-			   (stepsZERO.contains(13) && stepsZERO.contains(22) && stepsZERO.contains(31))){
-				System.out.println("\nПобеда НОЛИКОВ !!!");
-				drawField();
-				SOMEBODYWIN = true;
-			}
-			if((stepsEX.contains(11) && stepsEX.contains(12) && stepsEX.contains(13)) ||
-				(stepsEX.contains(21) && stepsEX.contains(22) && stepsEX.contains(23)) ||
-				(stepsEX.contains(31) && stepsEX.contains(32) && stepsEX.contains(33)) ||
-					   
-				(stepsEX.contains(11) && stepsEX.contains(21) && stepsEX.contains(31)) ||
-				(stepsEX.contains(12) && stepsEX.contains(22) && stepsEX.contains(32)) ||
-				(stepsEX.contains(13) && stepsEX.contains(23) && stepsEX.contains(33)) ||
-					  
-				(stepsEX.contains(11) && stepsEX.contains(22) && stepsEX.contains(33)) ||
-				(stepsEX.contains(13) && stepsEX.contains(22) && stepsEX.contains(31))){
-				System.out.println("\nПобеда КРЕСТИКОВ !!!");
-				drawField();
-				SOMEBODYWIN = true;
-			}
-//********************************************************************************************************
-			if(stepCount>9){
-				System.out.println("\nНИЧЬЯ !!!");
-				drawField();
-				SOMEBODYWIN = true;
 			}
 		}
 	}
